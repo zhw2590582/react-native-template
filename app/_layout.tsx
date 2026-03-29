@@ -10,6 +10,9 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "react-native-reanimated";
 import { Toaster } from "sonner-native";
 
+// 导入全局样式
+import "../global.css";
+
 // 初始化 i18n
 import "@/locales";
 

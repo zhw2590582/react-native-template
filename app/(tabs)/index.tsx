@@ -6,7 +6,6 @@ import {
   ActivityIndicator,
   Pressable,
   ScrollView,
-  StyleSheet,
   TextInput,
   View,
 } from "react-native";
@@ -14,8 +13,6 @@ import { z } from "zod";
 
 import { usePosts } from "@/api";
 import { FormInput, ThemedText, ThemedView } from "@/components/ui";
-import { Colors } from "@/constants/theme";
-import { useColorScheme } from "@/hooks/use-color-scheme";
 import {
   changeLanguage,
   getCurrentLanguage,
@@ -35,8 +32,6 @@ type FormData = z.infer<typeof formSchema>;
 
 export default function HomeScreen() {
   const { t } = useTranslation();
-  const colorScheme = useColorScheme();
-  const colors = Colors[colorScheme ?? "light"];
 
   // Zustand store
   const { count, increment, decrement, reset, incrementBy } = useCounterStore();
@@ -97,69 +92,71 @@ export default function HomeScreen() {
   };
 
   return (
-    <ScrollView
-      style={[styles.container, { backgroundColor: colors.background }]}
-      contentContainerStyle={styles.content}
-    >
+    <ScrollView className="flex-1">
       {/* Header */}
-      <ThemedView style={styles.header}>
+      <ThemedView className="mb-8 px-5 pt-16">
         <ThemedText type="title">{t("home.title")}</ThemedText>
-        <ThemedText style={styles.subtitle}>{t("home.subtitle")}</ThemedText>
+        <ThemedText className="opacity-60 mt-1">
+          {t("home.subtitle")}
+        </ThemedText>
       </ThemedView>
 
       {/* Zustand Demo */}
-      <ThemedView style={styles.section}>
+      <ThemedView className="mb-8 px-5">
         <ThemedText type="subtitle">{t("home.zustand.title")}</ThemedText>
-        <ThemedText style={styles.description}>
+        <ThemedText className="opacity-70 mt-1 mb-4">
           {t("home.zustand.description")}
         </ThemedText>
 
         {/* Counter Demo */}
-        <ThemedView style={[styles.card, { borderColor: colors.icon }]}>
+        <ThemedView className="p-4 rounded-lg mb-3 border border-neutral-300 dark:border-neutral-600">
           <ThemedText type="defaultSemiBold">
             {t("home.zustand.counter")}
           </ThemedText>
-          <ThemedText style={styles.countText}>{count}</ThemedText>
+          <ThemedText className="text-5xl font-bold text-center my-4">
+            {count}
+          </ThemedText>
 
-          <View style={styles.buttonRow}>
+          <View className="flex-row gap-3 mb-3">
             <Pressable
-              style={[styles.button, { backgroundColor: colors.tint }]}
+              className="py-2.5 px-5 rounded-lg flex-1"
+              style={{ backgroundColor: "rgb(13, 110, 253)" }}
               onPress={decrement}
             >
-              <ThemedText style={styles.buttonText}>-1</ThemedText>
+              <ThemedText className="text-white font-semibold">-1</ThemedText>
             </Pressable>
             <Pressable
-              style={[styles.button, { backgroundColor: colors.tint }]}
+              className="py-2.5 px-5 rounded-lg flex-1"
+              style={{ backgroundColor: "rgb(13, 110, 253)" }}
               onPress={increment}
             >
-              <ThemedText style={styles.buttonText}>+1</ThemedText>
+              <ThemedText className="text-white font-semibold">+1</ThemedText>
             </Pressable>
             <Pressable
-              style={[styles.button, { backgroundColor: colors.tint }]}
+              className="py-2.5 px-5 rounded-lg flex-1"
+              style={{ backgroundColor: "rgb(13, 110, 253)" }}
               onPress={() => incrementBy(10)}
             >
-              <ThemedText style={styles.buttonText}>+10</ThemedText>
+              <ThemedText className="text-white font-semibold">+10</ThemedText>
             </Pressable>
           </View>
 
           <Pressable
-            style={[styles.resetButton, { borderColor: colors.tint }]}
+            className="py-2.5 px-5 rounded border border-blue-500"
             onPress={reset}
           >
-            <ThemedText
-              style={[styles.resetButtonText, { color: colors.tint }]}
-            >
+            <ThemedText className="font-semibold text-blue-500">
               {t("common.reset")}
             </ThemedText>
           </Pressable>
         </ThemedView>
 
         {/* Theme Mode Demo */}
-        <ThemedView style={[styles.card, { borderColor: colors.icon }]}>
+        <ThemedView className="p-4 rounded-lg mb-3 border border-neutral-300 dark:border-neutral-600">
           <ThemedText type="defaultSemiBold">
             {t("home.zustand.theme")}
           </ThemedText>
-          <ThemedText style={styles.description}>
+          <ThemedText className="opacity-70 mt-1 mb-4">
             {t("home.zustand.themeCurrent")}:{" "}
             {themeMode === "system"
               ? t("home.zustand.themeSystem")
@@ -168,25 +165,23 @@ export default function HomeScreen() {
                 : t("home.zustand.themeLight")}
           </ThemedText>
 
-          <View style={styles.buttonRow}>
+          <View className="flex-row gap-3">
             {(["system", "light", "dark"] as const).map((mode) => (
               <Pressable
                 key={mode}
-                style={[
-                  styles.themeButton,
-                  {
-                    backgroundColor:
-                      themeMode === mode ? colors.tint : "transparent",
-                    borderColor: colors.tint,
-                  },
-                ]}
+                className="py-2 px-4 rounded border"
+                style={{
+                  borderColor: "rgb(13, 110, 253)",
+                  backgroundColor:
+                    themeMode === mode ? "rgb(13, 110, 253)" : "transparent",
+                }}
                 onPress={() => setThemeMode(mode)}
               >
                 <ThemedText
-                  style={[
-                    styles.themeButtonText,
-                    { color: themeMode === mode ? "#fff" : colors.tint },
-                  ]}
+                  className="font-semibold text-sm"
+                  style={{
+                    color: themeMode === mode ? "#fff" : "rgb(13, 110, 253)",
+                  }}
                 >
                   {mode === "system"
                     ? t("home.zustand.themeSystem")
@@ -200,11 +195,11 @@ export default function HomeScreen() {
         </ThemedView>
 
         {/* Loading State Demo */}
-        <ThemedView style={[styles.card, { borderColor: colors.icon }]}>
+        <ThemedView className="p-4 rounded-lg mb-3 border border-neutral-300 dark:border-neutral-600">
           <ThemedText type="defaultSemiBold">
             {t("home.zustand.loading")}
           </ThemedText>
-          <ThemedText style={styles.description}>
+          <ThemedText className="opacity-70 my-4">
             {t("home.zustand.loadingStatus")}:{" "}
             {isLoading
               ? t("home.zustand.loadingBusy")
@@ -212,16 +207,14 @@ export default function HomeScreen() {
           </ThemedText>
 
           <Pressable
-            style={[
-              styles.button,
-              { backgroundColor: colors.tint, alignSelf: "flex-start" },
-            ]}
+            className="py-2.5 px-5 rounded w-fit"
+            style={{ backgroundColor: "rgb(13, 110, 253)" }}
             onPress={() => {
               setLoading(true);
               setTimeout(() => setLoading(false), 2000);
             }}
           >
-            <ThemedText style={styles.buttonText}>
+            <ThemedText className="text-white font-semibold">
               {t("home.zustand.simulateLoading")}
             </ThemedText>
           </Pressable>
@@ -229,51 +222,52 @@ export default function HomeScreen() {
       </ThemedView>
 
       {/* React Query Demo */}
-      <ThemedView style={styles.section}>
+      <ThemedView className="mb-8 px-5">
         <ThemedText type="subtitle">{t("home.reactQuery.title")}</ThemedText>
-        <ThemedText style={styles.description}>
+        <ThemedText className="opacity-70 mt-1 mb-4">
           {t("home.reactQuery.description")}
         </ThemedText>
 
-        <ThemedView style={[styles.card, { borderColor: colors.icon }]}>
-          <View style={styles.cardHeader}>
+        <ThemedView className="p-4 rounded-lg mb-3 border border-neutral-300 dark:border-neutral-600">
+          <View className="flex-row justify-between items-center mb-3">
             <ThemedText type="defaultSemiBold">
               {t("home.reactQuery.postList")}
             </ThemedText>
             <Pressable
-              style={[styles.refreshButton, { borderColor: colors.tint }]}
+              className="py-1.5 px-3 rounded border border-blue-500"
               onPress={() => refetch()}
             >
-              <ThemedText
-                style={[styles.refreshButtonText, { color: colors.tint }]}
-              >
+              <ThemedText className="text-xs font-semibold text-blue-500">
                 {t("common.refresh")}
               </ThemedText>
             </Pressable>
           </View>
 
           {postsLoading ? (
-            <View style={styles.loadingContainer}>
-              <ActivityIndicator size="small" color={colors.tint} />
-              <ThemedText style={styles.loadingText}>
+            <View className="flex-row items-center gap-2 py-5">
+              <ActivityIndicator size="small" color="rgb(13, 110, 253)" />
+              <ThemedText className="opacity-70">
                 {t("common.loading")}
               </ThemedText>
             </View>
           ) : error ? (
-            <ThemedText style={styles.errorText}>
+            <ThemedText className="text-red-500 py-3">
               加载失败: {error.message}
             </ThemedText>
           ) : (
-            <View style={styles.postList}>
+            <View className="gap-2 mb-3">
               {posts?.map((post) => (
                 <View
                   key={post.id}
-                  style={[styles.postItem, { borderColor: colors.icon }]}
+                  className="p-3 rounded border border-neutral-300 dark:border-neutral-600"
                 >
                   <ThemedText type="defaultSemiBold" numberOfLines={1}>
                     {post.id}. {post.title}
                   </ThemedText>
-                  <ThemedText style={styles.postBody} numberOfLines={2}>
+                  <ThemedText
+                    className="opacity-70 text-sm mt-1"
+                    numberOfLines={2}
+                  >
                     {post.body}
                   </ThemedText>
                 </View>
@@ -281,52 +275,50 @@ export default function HomeScreen() {
             </View>
           )}
 
-          <ThemedText style={styles.featureList}>
+          <ThemedText className="text-xs opacity-60 text-center">
             {t("home.reactQuery.features")}
           </ThemedText>
         </ThemedView>
       </ThemedView>
 
       {/* i18n Demo */}
-      <ThemedView style={styles.section}>
+      <ThemedView className="mb-8 px-5">
         <ThemedText type="subtitle">{t("home.i18n.title")}</ThemedText>
-        <ThemedText style={styles.description}>
+        <ThemedText className="opacity-70 mt-1 mb-4">
           {t("home.i18n.description")}
         </ThemedText>
 
-        <ThemedView style={[styles.card, { borderColor: colors.icon }]}>
+        <ThemedView className="p-4 rounded-lg mb-3 border border-neutral-300 dark:border-neutral-600">
           <ThemedText type="defaultSemiBold">
             {t("home.i18n.switchLang")}
           </ThemedText>
-          <ThemedText style={styles.description}>
+          <ThemedText className="opacity-70 my-4">
             {t("home.i18n.currentLang")}:{" "}
             {supportedLanguages[getCurrentLanguage()].nativeName}
           </ThemedText>
 
-          <View style={styles.buttonRow}>
+          <View className="flex-row gap-3">
             {(Object.keys(supportedLanguages) as LanguageCode[]).map((lang) => (
               <Pressable
                 key={lang}
-                style={[
-                  styles.themeButton,
-                  {
-                    backgroundColor:
-                      getCurrentLanguage() === lang
-                        ? colors.tint
-                        : "transparent",
-                    borderColor: colors.tint,
-                  },
-                ]}
+                className="py-2 px-4 rounded border"
+                style={{
+                  borderColor: "rgb(13, 110, 253)",
+                  backgroundColor:
+                    getCurrentLanguage() === lang
+                      ? "rgb(13, 110, 253)"
+                      : "transparent",
+                }}
                 onPress={() => changeLanguage(lang)}
               >
                 <ThemedText
-                  style={[
-                    styles.themeButtonText,
-                    {
-                      color:
-                        getCurrentLanguage() === lang ? "#fff" : colors.tint,
-                    },
-                  ]}
+                  className="font-semibold text-sm"
+                  style={{
+                    color:
+                      getCurrentLanguage() === lang
+                        ? "#fff"
+                        : "rgb(13, 110, 253)",
+                  }}
                 >
                   {supportedLanguages[lang].nativeName}
                 </ThemedText>
@@ -334,63 +326,65 @@ export default function HomeScreen() {
             ))}
           </View>
 
-          <ThemedText style={[styles.greeting, { color: colors.tint }]}>
+          <ThemedText className="text-base font-semibold mt-3 text-center text-blue-500">
             {t("home.i18n.greeting")}
           </ThemedText>
         </ThemedView>
       </ThemedView>
 
       {/* Toast Demo */}
-      <ThemedView style={styles.section}>
+      <ThemedView className="mb-8 px-5">
         <ThemedText type="subtitle">{t("home.toast.title")}</ThemedText>
-        <ThemedText style={styles.description}>
+        <ThemedText className="opacity-70 mt-1 mb-4">
           {t("home.toast.description")}
         </ThemedText>
 
-        <ThemedView style={[styles.card, { borderColor: colors.icon }]}>
-          <View style={styles.buttonRow}>
+        <ThemedView className="p-4 rounded-lg mb-3 border border-neutral-300 dark:border-neutral-600">
+          <View className="flex-row gap-3 mb-3">
             <Pressable
-              style={[styles.button, { backgroundColor: "#22c55e" }]}
+              className="flex-1 py-2.5 px-5 rounded"
+              style={{ backgroundColor: "#22c55e" }}
               onPress={() => toast.success(t("home.toast.successMsg"))}
             >
-              <ThemedText style={styles.buttonText}>
+              <ThemedText className="text-white font-semibold text-center">
                 {t("home.toast.success")}
               </ThemedText>
             </Pressable>
             <Pressable
-              style={[styles.button, { backgroundColor: "#ef4444" }]}
+              className="flex-1 py-2.5 px-5 rounded"
+              style={{ backgroundColor: "#ef4444" }}
               onPress={() => toast.error(t("home.toast.errorMsg"))}
             >
-              <ThemedText style={styles.buttonText}>
+              <ThemedText className="text-white font-semibold text-center">
                 {t("home.toast.error")}
               </ThemedText>
             </Pressable>
           </View>
 
-          <View style={styles.buttonRow}>
+          <View className="flex-row gap-3 mb-3">
             <Pressable
-              style={[styles.button, { backgroundColor: "#f59e0b" }]}
+              className="flex-1 py-2.5 px-5 rounded"
+              style={{ backgroundColor: "#f59e0b" }}
               onPress={() => toast.warning(t("home.toast.warningMsg"))}
             >
-              <ThemedText style={styles.buttonText}>
+              <ThemedText className="text-white font-semibold text-center">
                 {t("home.toast.warning")}
               </ThemedText>
             </Pressable>
             <Pressable
-              style={[styles.button, { backgroundColor: "#3b82f6" }]}
+              className="flex-1 py-2.5 px-5 rounded"
+              style={{ backgroundColor: "#3b82f6" }}
               onPress={() => toast.info(t("home.toast.infoMsg"))}
             >
-              <ThemedText style={styles.buttonText}>
+              <ThemedText className="text-white font-semibold text-center">
                 {t("home.toast.info")}
               </ThemedText>
             </Pressable>
           </View>
 
           <Pressable
-            style={[
-              styles.button,
-              { backgroundColor: colors.tint, alignSelf: "flex-start" },
-            ]}
+            className="py-2.5 px-5 rounded"
+            style={{ backgroundColor: "rgb(13, 110, 253)" }}
             onPress={() => {
               const promise = new Promise((resolve) =>
                 setTimeout(resolve, 2000),
@@ -402,7 +396,7 @@ export default function HomeScreen() {
               });
             }}
           >
-            <ThemedText style={styles.buttonText}>
+            <ThemedText className="text-white font-semibold">
               {t("home.toast.promise")}
             </ThemedText>
           </Pressable>
@@ -410,13 +404,13 @@ export default function HomeScreen() {
       </ThemedView>
 
       {/* Form Demo */}
-      <ThemedView style={styles.section}>
+      <ThemedView className="mb-8 px-5">
         <ThemedText type="subtitle">{t("home.form.title")}</ThemedText>
-        <ThemedText style={styles.description}>
+        <ThemedText className="opacity-70 mt-1 mb-4">
           {t("home.form.description")}
         </ThemedText>
 
-        <ThemedView style={[styles.card, { borderColor: colors.icon }]}>
+        <ThemedView className="p-4 rounded-lg mb-3 border border-neutral-300 dark:border-neutral-600">
           <Controller
             control={control}
             name="username"
@@ -459,227 +453,88 @@ export default function HomeScreen() {
           />
 
           <Pressable
-            style={[styles.button, { backgroundColor: colors.tint }]}
+            className="py-2.5 px-5 rounded"
+            style={{ backgroundColor: "rgb(13, 110, 253)" }}
             onPress={handleSubmit(onSubmit)}
           >
-            <ThemedText style={styles.buttonText}>
+            <ThemedText className="text-white font-semibold text-center">
               {t("home.form.submit")}
             </ThemedText>
           </Pressable>
 
-          <ThemedText style={styles.featureList}>
+          <ThemedText className="text-xs opacity-60 text-center mt-2">
             {t("home.form.features")}
           </ThemedText>
         </ThemedView>
       </ThemedView>
 
       {/* Storage Demo */}
-      <ThemedView style={styles.section}>
+      <ThemedView className="mb-8 px-5">
         <ThemedText type="subtitle">{t("home.storage.title")}</ThemedText>
-        <ThemedText style={styles.description}>
+        <ThemedText className="opacity-70 mt-1 mb-4">
           {t("home.storage.description")}
         </ThemedText>
 
-        <ThemedView style={[styles.card, { borderColor: colors.icon }]}>
+        <ThemedView className="p-4 rounded-lg mb-3 border border-neutral-300 dark:border-neutral-600">
           <ThemedText type="defaultSemiBold">
             {t("home.storage.currentValue")}:{" "}
-            <ThemedText style={{ color: colors.tint }}>
+            <ThemedText className="text-blue-500">
               {storedValue ?? t("home.storage.empty")}
             </ThemedText>
           </ThemedText>
 
           <TextInput
-            style={[
-              styles.input,
-              {
-                borderColor: colors.icon,
-                color: colors.text,
-              },
-            ]}
+            className="border border-neutral-300 dark:border-neutral-600 rounded-lg py-3 px-4 text-base my-3"
+            style={{ color: "#000" }}
             value={storageInput}
             onChangeText={setStorageInput}
             placeholder={t("home.storage.placeholder")}
-            placeholderTextColor={colors.icon}
+            placeholderTextColor="#ccc"
           />
 
-          <View style={styles.buttonRow}>
+          <View className="flex-row gap-3 mb-3">
             <Pressable
-              style={[styles.button, { backgroundColor: "#22c55e" }]}
+              className="flex-1 py-2.5 px-5 rounded"
+              style={{ backgroundColor: "#22c55e" }}
               onPress={handleSave}
             >
-              <ThemedText style={styles.buttonText}>
+              <ThemedText className="text-white font-semibold text-center text-sm">
                 {t("home.storage.save")}
               </ThemedText>
             </Pressable>
             <Pressable
-              style={[styles.button, { backgroundColor: colors.tint }]}
+              className="flex-1 py-2.5 px-5 rounded"
+              style={{ backgroundColor: "rgb(13, 110, 253)" }}
               onPress={handleLoad}
             >
-              <ThemedText style={styles.buttonText}>
+              <ThemedText className="text-white font-semibold text-center text-sm">
                 {t("home.storage.load")}
               </ThemedText>
             </Pressable>
             <Pressable
-              style={[styles.button, { backgroundColor: "#ef4444" }]}
+              className="flex-1 py-2.5 px-5 rounded"
+              style={{ backgroundColor: "#ef4444" }}
               onPress={handleClear}
             >
-              <ThemedText style={styles.buttonText}>
+              <ThemedText className="text-white font-semibold text-center text-sm">
                 {t("home.storage.clear")}
               </ThemedText>
             </Pressable>
           </View>
 
-          <ThemedText style={styles.featureList}>
+          <ThemedText className="text-xs opacity-60 text-center">
             {t("home.storage.features")}
           </ThemedText>
         </ThemedView>
       </ThemedView>
 
       {/* Roadmap */}
-      <ThemedView style={styles.section}>
+      <ThemedView className="mb-8 px-5 pb-10">
         <ThemedText type="subtitle">{t("home.roadmap.title")}</ThemedText>
-        <ThemedView style={styles.roadmapItem}>
+        <ThemedView className="py-2">
           <ThemedText>• {t("home.roadmap.auth")}</ThemedText>
         </ThemedView>
       </ThemedView>
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  content: {
-    padding: 20,
-    paddingTop: 60,
-    paddingBottom: 40,
-  },
-  header: {
-    marginBottom: 32,
-  },
-  subtitle: {
-    opacity: 0.6,
-    marginTop: 4,
-  },
-  section: {
-    marginBottom: 32,
-  },
-  description: {
-    opacity: 0.7,
-    marginTop: 4,
-    marginBottom: 16,
-  },
-  card: {
-    padding: 16,
-    borderRadius: 12,
-    marginBottom: 12,
-    borderWidth: 1,
-  },
-  countText: {
-    fontSize: 48,
-    fontWeight: "700",
-    textAlign: "center",
-    marginVertical: 16,
-  },
-  buttonRow: {
-    flexDirection: "row",
-    gap: 12,
-    marginBottom: 12,
-  },
-  button: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-  },
-  buttonText: {
-    color: "#fff",
-    fontWeight: "600",
-  },
-  resetButton: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-    borderWidth: 1,
-    alignSelf: "flex-start",
-  },
-  resetButtonText: {
-    fontWeight: "600",
-  },
-  themeButton: {
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-    borderWidth: 1,
-  },
-  themeButtonText: {
-    fontWeight: "600",
-    fontSize: 13,
-  },
-  roadmapItem: {
-    paddingVertical: 8,
-  },
-  // React Query Demo styles
-  cardHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 12,
-  },
-  refreshButton: {
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 6,
-    borderWidth: 1,
-  },
-  refreshButtonText: {
-    fontSize: 12,
-    fontWeight: "600",
-  },
-  loadingContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    paddingVertical: 20,
-  },
-  loadingText: {
-    opacity: 0.7,
-  },
-  errorText: {
-    color: "#ef4444",
-    paddingVertical: 12,
-  },
-  postList: {
-    gap: 8,
-    marginBottom: 12,
-  },
-  postItem: {
-    padding: 12,
-    borderRadius: 8,
-    borderWidth: 1,
-  },
-  postBody: {
-    opacity: 0.7,
-    fontSize: 13,
-    marginTop: 4,
-  },
-  featureList: {
-    fontSize: 12,
-    opacity: 0.6,
-    textAlign: "center",
-  },
-  greeting: {
-    fontSize: 16,
-    fontWeight: "600",
-    marginTop: 12,
-    textAlign: "center",
-  },
-  input: {
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    fontSize: 16,
-    marginVertical: 12,
-  },
-});
