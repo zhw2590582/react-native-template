@@ -81,6 +81,8 @@
   },
   "tabs": {
     "home": "首页",
-    "explore": "探索"
+    "discover": "发现",
+    "message": "消息",
+    "profile": "我的"
   }
 }

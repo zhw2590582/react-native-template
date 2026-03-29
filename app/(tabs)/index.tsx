@@ -11,9 +11,7 @@ import {
 import { z } from "zod";
 
 import { usePosts } from "@/api";
-import { ThemedText } from "@/components/themed-text";
-import { ThemedView } from "@/components/themed-view";
-import { FormInput } from "@/components/ui";
+import { FormInput, ThemedText, ThemedView } from "@/components/ui";
 import { Colors } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import {

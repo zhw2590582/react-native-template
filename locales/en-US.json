@@ -81,6 +81,8 @@
   },
   "tabs": {
     "home": "Home",
-    "explore": "Explore"
+    "discover": "Discover",
+    "message": "Message",
+    "profile": "Profile"
   }
 }
