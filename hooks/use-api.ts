@@ -1,7 +1,11 @@
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import axios from "axios";
 
-import { API_BASE_URL, API_TIMEOUT } from "@/constants";
+import { API_BASE_URL, API_CONFIG, API_TIMEOUT } from "@/constants";
+import { createLogger } from "@/utils";
+
+const logger = createLogger("API");
+const STATUS = API_CONFIG.STATUS;
 
 // 创建 axios 实例
 const apiClient: AxiosInstance = axios.create({
@@ -15,6 +19,11 @@ const apiClient: AxiosInstance = axios.create({
 // 请求拦截器
 apiClient.interceptors.request.use(
   (config) => {
+    logger.logApiRequest(
+      config.method?.toUpperCase() || "GET",
+      config.url || "",
+      config.data,
+    );
     // 可以在这里添加 token
     // const token = await getToken();
     // if (token) {
@@ -23,6 +32,7 @@ apiClient.interceptors.request.use(
     return config;
   },
   (error) => {
+    logger.error("Request setup failed", error);
     return Promise.reject(error);
   },
 );
@@ -30,29 +40,42 @@ apiClient.interceptors.request.use(
 // 响应拦截器
 apiClient.interceptors.response.use(
   (response: AxiosResponse) => {
+    logger.logApiResponse(
+      response.config.method?.toUpperCase() || "GET",
+      response.config.url || "",
+      response.status,
+      response.data,
+    );
     return response;
   },
   (error) => {
     // 统一错误处理
     if (error.response) {
-      const { status } = error.response;
+      const { status, config } = error.response;
+      logger.logApiError(
+        config.method?.toUpperCase() || "GET",
+        config.url || "",
+        error,
+      );
+
       switch (status) {
-        case 401:
-          // 处理未授权，比如跳转登录
-          console.log("Unauthorized");
+        case STATUS.UNAUTHORIZED:
+          logger.warn("Unauthorized: token may be expired");
           break;
-        case 403:
-          console.log("Forbidden");
+        case STATUS.FORBIDDEN:
+          logger.warn("Forbidden: access denied");
           break;
-        case 404:
-          console.log("Not Found");
+        case STATUS.NOT_FOUND:
+          logger.warn("Not Found: resource not found");
           break;
-        case 500:
-          console.log("Server Error");
+        case STATUS.SERVER_ERROR:
+          logger.error("Server Error: internal server error");
           break;
         default:
-          console.log("Request Error:", status);
+          logger.error(`Request Error: ${status}`);
       }
+    } else {
+      logger.error("Network Error", error);
     }
     return Promise.reject(error);
   },

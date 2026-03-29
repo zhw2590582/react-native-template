@@ -13,18 +13,11 @@ import { Toaster } from "sonner-native";
 // 初始化 i18n
 import "@/locales";
 
+import { QUERY_CONFIG } from "@/constants";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 
 // 创建 QueryClient 实例
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: 2,
-      staleTime: 1000 * 60 * 5, // 5 分钟
-      gcTime: 1000 * 60 * 30, // 30 分钟 (原 cacheTime)
-    },
-  },
-});
+const queryClient = new QueryClient(QUERY_CONFIG);
 
 export const unstable_settings = {
   anchor: "(tabs)",
