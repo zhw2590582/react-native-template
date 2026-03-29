@@ -1,9 +1,16 @@
-import { Pressable, ScrollView, StyleSheet, View } from "react-native";
+import {
+  ActivityIndicator,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  View,
+} from "react-native";
 
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { Colors } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
+import { usePosts } from "@/services/api";
 import { useAppStore, useCounterStore } from "@/store";
 
 export default function HomeScreen() {
@@ -13,6 +20,9 @@ export default function HomeScreen() {
   // Zustand store
   const { count, increment, decrement, reset, incrementBy } = useCounterStore();
   const { themeMode, setThemeMode, isLoading, setLoading } = useAppStore();
+
+  // React Query
+  const { data: posts, isLoading: postsLoading, error, refetch } = usePosts(3);
 
   return (
     <ScrollView
@@ -137,12 +147,66 @@ export default function HomeScreen() {
         </ThemedView>
       </ThemedView>
 
+      {/* React Query Demo */}
+      <ThemedView style={styles.section}>
+        <ThemedText type="subtitle">🔄 React Query + Axios</ThemedText>
+        <ThemedText style={styles.description}>
+          强大的数据获取和缓存方案
+        </ThemedText>
+
+        <ThemedView style={[styles.card, { borderColor: colors.icon }]}>
+          <View style={styles.cardHeader}>
+            <ThemedText type="defaultSemiBold">
+              文章列表 (JSONPlaceholder)
+            </ThemedText>
+            <Pressable
+              style={[styles.refreshButton, { borderColor: colors.tint }]}
+              onPress={() => refetch()}
+            >
+              <ThemedText
+                style={[styles.refreshButtonText, { color: colors.tint }]}
+              >
+                刷新
+              </ThemedText>
+            </Pressable>
+          </View>
+
+          {postsLoading ? (
+            <View style={styles.loadingContainer}>
+              <ActivityIndicator size="small" color={colors.tint} />
+              <ThemedText style={styles.loadingText}>加载中...</ThemedText>
+            </View>
+          ) : error ? (
+            <ThemedText style={styles.errorText}>
+              加载失败: {error.message}
+            </ThemedText>
+          ) : (
+            <View style={styles.postList}>
+              {posts?.map((post) => (
+                <View
+                  key={post.id}
+                  style={[styles.postItem, { borderColor: colors.icon }]}
+                >
+                  <ThemedText type="defaultSemiBold" numberOfLines={1}>
+                    {post.id}. {post.title}
+                  </ThemedText>
+                  <ThemedText style={styles.postBody} numberOfLines={2}>
+                    {post.body}
+                  </ThemedText>
+                </View>
+              ))}
+            </View>
+          )}
+
+          <ThemedText style={styles.featureList}>
+            ✓ 自动缓存 · ✓ 自动重试 · ✓ Loading 状态 · ✓ 错误处理
+          </ThemedText>
+        </ThemedView>
+      </ThemedView>
+
       {/* Roadmap */}
       <ThemedView style={styles.section}>
         <ThemedText type="subtitle">🚀 即将添加</ThemedText>
-        <ThemedView style={styles.roadmapItem}>
-          <ThemedText>• React Query - 网络请求</ThemedText>
-        </ThemedView>
         <ThemedView style={styles.roadmapItem}>
           <ThemedText>• i18n - 国际化</ThemedText>
         </ThemedView>
@@ -186,7 +250,6 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     marginBottom: 12,
     borderWidth: 1,
-
   },
   countText: {
     fontSize: 48,
@@ -230,5 +293,54 @@ const styles = StyleSheet.create({
   },
   roadmapItem: {
     paddingVertical: 8,
+  },
+  // React Query Demo styles
+  cardHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 12,
+  },
+  refreshButton: {
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 6,
+    borderWidth: 1,
+  },
+  refreshButtonText: {
+    fontSize: 12,
+    fontWeight: "600",
+  },
+  loadingContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    paddingVertical: 20,
+  },
+  loadingText: {
+    opacity: 0.7,
+  },
+  errorText: {
+    color: "#ef4444",
+    paddingVertical: 12,
+  },
+  postList: {
+    gap: 8,
+    marginBottom: 12,
+  },
+  postItem: {
+    padding: 12,
+    borderRadius: 8,
+    borderWidth: 1,
+  },
+  postBody: {
+    opacity: 0.7,
+    fontSize: 13,
+    marginTop: 4,
+  },
+  featureList: {
+    fontSize: 12,
+    opacity: 0.6,
+    textAlign: "center",
   },
 });
