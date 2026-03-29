@@ -43,10 +43,3 @@ export const API_CONFIG = {
     SERVER_ERROR: 500,
   },
 } as const;
-
-export default {
-  QUERY_CONFIG,
-  STORAGE_CONFIG,
-  LOG_CONFIG,
-  API_CONFIG,
-} as const;
