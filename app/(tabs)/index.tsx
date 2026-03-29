@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
   Pressable,
@@ -11,9 +12,16 @@ import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { Colors } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
+import {
+  changeLanguage,
+  getCurrentLanguage,
+  supportedLanguages,
+  type LanguageCode,
+} from "@/locales";
 import { useAppStore, useCounterStore } from "@/store";
 
 export default function HomeScreen() {
+  const { t } = useTranslation();
   const colorScheme = useColorScheme();
   const colors = Colors[colorScheme ?? "light"];
 
@@ -31,22 +39,22 @@ export default function HomeScreen() {
     >
       {/* Header */}
       <ThemedView style={styles.header}>
-        <ThemedText type="title">RN Template</ThemedText>
-        <ThemedText style={styles.subtitle}>
-          企业级 React Native 模板
-        </ThemedText>
+        <ThemedText type="title">{t("home.title")}</ThemedText>
+        <ThemedText style={styles.subtitle}>{t("home.subtitle")}</ThemedText>
       </ThemedView>
 
       {/* Zustand Demo */}
       <ThemedView style={styles.section}>
-        <ThemedText type="subtitle">📦 Zustand 状态管理</ThemedText>
+        <ThemedText type="subtitle">{t("home.zustand.title")}</ThemedText>
         <ThemedText style={styles.description}>
-          轻量级、简洁的状态管理方案
+          {t("home.zustand.description")}
         </ThemedText>
 
         {/* Counter Demo */}
         <ThemedView style={[styles.card, { borderColor: colors.icon }]}>
-          <ThemedText type="defaultSemiBold">计数器示例</ThemedText>
+          <ThemedText type="defaultSemiBold">
+            {t("home.zustand.counter")}
+          </ThemedText>
           <ThemedText style={styles.countText}>{count}</ThemedText>
 
           <View style={styles.buttonRow}>
@@ -77,21 +85,23 @@ export default function HomeScreen() {
             <ThemedText
               style={[styles.resetButtonText, { color: colors.tint }]}
             >
-              重置
+              {t("common.reset")}
             </ThemedText>
           </Pressable>
         </ThemedView>
 
         {/* Theme Mode Demo */}
         <ThemedView style={[styles.card, { borderColor: colors.icon }]}>
-          <ThemedText type="defaultSemiBold">主题模式</ThemedText>
+          <ThemedText type="defaultSemiBold">
+            {t("home.zustand.theme")}
+          </ThemedText>
           <ThemedText style={styles.description}>
-            当前:{" "}
+            {t("home.zustand.themeCurrent")}:{" "}
             {themeMode === "system"
-              ? "跟随系统"
+              ? t("home.zustand.themeSystem")
               : themeMode === "dark"
-                ? "深色"
-                : "浅色"}
+                ? t("home.zustand.themeDark")
+                : t("home.zustand.themeLight")}
           </ThemedText>
 
           <View style={styles.buttonRow}>
@@ -115,10 +125,10 @@ export default function HomeScreen() {
                   ]}
                 >
                   {mode === "system"
-                    ? "系统"
+                    ? t("home.zustand.themeSystem")
                     : mode === "light"
-                      ? "浅色"
-                      : "深色"}
+                      ? t("home.zustand.themeLight")
+                      : t("home.zustand.themeDark")}
                 </ThemedText>
               </Pressable>
             ))}
@@ -127,9 +137,14 @@ export default function HomeScreen() {
 
         {/* Loading State Demo */}
         <ThemedView style={[styles.card, { borderColor: colors.icon }]}>
-          <ThemedText type="defaultSemiBold">全局 Loading 状态</ThemedText>
+          <ThemedText type="defaultSemiBold">
+            {t("home.zustand.loading")}
+          </ThemedText>
           <ThemedText style={styles.description}>
-            状态: {isLoading ? "加载中..." : "空闲"}
+            {t("home.zustand.loadingStatus")}:{" "}
+            {isLoading
+              ? t("home.zustand.loadingBusy")
+              : t("home.zustand.loadingIdle")}
           </ThemedText>
 
           <Pressable
@@ -142,22 +157,24 @@ export default function HomeScreen() {
               setTimeout(() => setLoading(false), 2000);
             }}
           >
-            <ThemedText style={styles.buttonText}>模拟加载 (2s)</ThemedText>
+            <ThemedText style={styles.buttonText}>
+              {t("home.zustand.simulateLoading")}
+            </ThemedText>
           </Pressable>
         </ThemedView>
       </ThemedView>
 
       {/* React Query Demo */}
       <ThemedView style={styles.section}>
-        <ThemedText type="subtitle">🔄 React Query + Axios</ThemedText>
+        <ThemedText type="subtitle">{t("home.reactQuery.title")}</ThemedText>
         <ThemedText style={styles.description}>
-          强大的数据获取和缓存方案
+          {t("home.reactQuery.description")}
         </ThemedText>
 
         <ThemedView style={[styles.card, { borderColor: colors.icon }]}>
           <View style={styles.cardHeader}>
             <ThemedText type="defaultSemiBold">
-              文章列表 (JSONPlaceholder)
+              {t("home.reactQuery.postList")}
             </ThemedText>
             <Pressable
               style={[styles.refreshButton, { borderColor: colors.tint }]}
@@ -166,7 +183,7 @@ export default function HomeScreen() {
               <ThemedText
                 style={[styles.refreshButtonText, { color: colors.tint }]}
               >
-                刷新
+                {t("common.refresh")}
               </ThemedText>
             </Pressable>
           </View>
@@ -174,7 +191,9 @@ export default function HomeScreen() {
           {postsLoading ? (
             <View style={styles.loadingContainer}>
               <ActivityIndicator size="small" color={colors.tint} />
-              <ThemedText style={styles.loadingText}>加载中...</ThemedText>
+              <ThemedText style={styles.loadingText}>
+                {t("common.loading")}
+              </ThemedText>
             </View>
           ) : error ? (
             <ThemedText style={styles.errorText}>
@@ -199,22 +218,72 @@ export default function HomeScreen() {
           )}
 
           <ThemedText style={styles.featureList}>
-            ✓ 自动缓存 · ✓ 自动重试 · ✓ Loading 状态 · ✓ 错误处理
+            {t("home.reactQuery.features")}
+          </ThemedText>
+        </ThemedView>
+      </ThemedView>
+
+      {/* i18n Demo */}
+      <ThemedView style={styles.section}>
+        <ThemedText type="subtitle">{t("home.i18n.title")}</ThemedText>
+        <ThemedText style={styles.description}>
+          {t("home.i18n.description")}
+        </ThemedText>
+
+        <ThemedView style={[styles.card, { borderColor: colors.icon }]}>
+          <ThemedText type="defaultSemiBold">
+            {t("home.i18n.switchLang")}
+          </ThemedText>
+          <ThemedText style={styles.description}>
+            {t("home.i18n.currentLang")}:{" "}
+            {supportedLanguages[getCurrentLanguage()].nativeName}
+          </ThemedText>
+
+          <View style={styles.buttonRow}>
+            {(Object.keys(supportedLanguages) as LanguageCode[]).map((lang) => (
+              <Pressable
+                key={lang}
+                style={[
+                  styles.themeButton,
+                  {
+                    backgroundColor:
+                      getCurrentLanguage() === lang
+                        ? colors.tint
+                        : "transparent",
+                    borderColor: colors.tint,
+                  },
+                ]}
+                onPress={() => changeLanguage(lang)}
+              >
+                <ThemedText
+                  style={[
+                    styles.themeButtonText,
+                    {
+                      color:
+                        getCurrentLanguage() === lang ? "#fff" : colors.tint,
+                    },
+                  ]}
+                >
+                  {supportedLanguages[lang].nativeName}
+                </ThemedText>
+              </Pressable>
+            ))}
+          </View>
+
+          <ThemedText style={[styles.greeting, { color: colors.tint }]}>
+            {t("home.i18n.greeting")}
           </ThemedText>
         </ThemedView>
       </ThemedView>
 
       {/* Roadmap */}
       <ThemedView style={styles.section}>
-        <ThemedText type="subtitle">🚀 即将添加</ThemedText>
+        <ThemedText type="subtitle">{t("home.roadmap.title")}</ThemedText>
         <ThemedView style={styles.roadmapItem}>
-          <ThemedText>• i18n - 国际化</ThemedText>
+          <ThemedText>• {t("home.roadmap.toast")}</ThemedText>
         </ThemedView>
         <ThemedView style={styles.roadmapItem}>
-          <ThemedText>• Toast - 消息提示</ThemedText>
-        </ThemedView>
-        <ThemedView style={styles.roadmapItem}>
-          <ThemedText>• Form - 表单验证</ThemedText>
+          <ThemedText>• {t("home.roadmap.form")}</ThemedText>
         </ThemedView>
       </ThemedView>
     </ScrollView>
@@ -341,6 +410,12 @@ const styles = StyleSheet.create({
   featureList: {
     fontSize: 12,
     opacity: 0.6,
+    textAlign: "center",
+  },
+  greeting: {
+    fontSize: 16,
+    fontWeight: "600",
+    marginTop: 12,
     textAlign: "center",
   },
 });

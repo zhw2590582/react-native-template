@@ -1,0 +1,55 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "retry": "Retry",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "refresh": "Refresh",
+    "reset": "Reset"
+  },
+  "home": {
+    "title": "RN Template",
+    "subtitle": "Enterprise React Native Template",
+    "zustand": {
+      "title": "📦 Zustand State Management",
+      "description": "Lightweight and simple state management",
+      "counter": "Counter Example",
+      "theme": "Theme Mode",
+      "themeCurrent": "Current",
+      "themeSystem": "System",
+      "themeLight": "Light",
+      "themeDark": "Dark",
+      "loading": "Global Loading State",
+      "loadingStatus": "Status",
+      "loadingIdle": "Idle",
+      "loadingBusy": "Loading...",
+      "simulateLoading": "Simulate Loading (2s)"
+    },
+    "reactQuery": {
+      "title": "🔄 React Query + Axios",
+      "description": "Powerful data fetching and caching",
+      "postList": "Post List (JSONPlaceholder)",
+      "features": "✓ Auto Cache · ✓ Auto Retry · ✓ Loading State · ✓ Error Handling"
+    },
+    "i18n": {
+      "title": "🌍 Internationalization (i18n)",
+      "description": "Multi-language support with auto system detection",
+      "currentLang": "Current Language",
+      "switchLang": "Switch Language",
+      "greeting": "Hello, welcome!"
+    },
+    "roadmap": {
+      "title": "🚀 Coming Soon",
+      "toast": "Toast - Notifications",
+      "form": "Form - Form Validation"
+    }
+  },
+  "tabs": {
+    "home": "Home",
+    "explore": "Explore"
+  }
+}

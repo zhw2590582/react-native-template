@@ -1,0 +1,55 @@
+{
+  "common": {
+    "loading": "加载中...",
+    "error": "出错了",
+    "retry": "重试",
+    "confirm": "确定",
+    "cancel": "取消",
+    "save": "保存",
+    "delete": "删除",
+    "edit": "编辑",
+    "refresh": "刷新",
+    "reset": "重置"
+  },
+  "home": {
+    "title": "RN Template",
+    "subtitle": "企业级 React Native 模板",
+    "zustand": {
+      "title": "📦 Zustand 状态管理",
+      "description": "轻量级、简洁的状态管理方案",
+      "counter": "计数器示例",
+      "theme": "主题模式",
+      "themeCurrent": "当前",
+      "themeSystem": "跟随系统",
+      "themeLight": "浅色",
+      "themeDark": "深色",
+      "loading": "全局 Loading 状态",
+      "loadingStatus": "状态",
+      "loadingIdle": "空闲",
+      "loadingBusy": "加载中...",
+      "simulateLoading": "模拟加载 (2s)"
+    },
+    "reactQuery": {
+      "title": "🔄 React Query + Axios",
+      "description": "强大的数据获取和缓存方案",
+      "postList": "文章列表 (JSONPlaceholder)",
+      "features": "✓ 自动缓存 · ✓ 自动重试 · ✓ Loading 状态 · ✓ 错误处理"
+    },
+    "i18n": {
+      "title": "🌍 国际化 (i18n)",
+      "description": "多语言支持，自动检测系统语言",
+      "currentLang": "当前语言",
+      "switchLang": "切换语言",
+      "greeting": "你好，欢迎使用！"
+    },
+    "roadmap": {
+      "title": "🚀 即将添加",
+      "toast": "Toast - 消息提示",
+      "form": "Form - 表单验证"
+    }
+  },
+  "tabs": {
+    "home": "首页",
+    "explore": "探索"
+  }
+}

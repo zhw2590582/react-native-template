@@ -8,6 +8,9 @@ import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
 
+// 初始化 i18n
+import "@/locales";
+
 import { useColorScheme } from "@/hooks/use-color-scheme";
 
 // 创建 QueryClient 实例
