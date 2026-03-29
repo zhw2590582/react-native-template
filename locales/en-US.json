@@ -73,9 +73,23 @@
       "submitSuccess": "Form submitted successfully!",
       "features": "✓ Type Safe · ✓ Real-time Validation · ✓ Error Messages · ✓ Extensible"
     },
+    "storage": {
+      "title": "💾 Local Storage (MMKV)",
+      "description": "High-performance key-value storage",
+      "inputLabel": "Storage Content",
+      "inputPlaceholder": "Enter content to store",
+      "save": "Save",
+      "load": "Load",
+      "clear": "Clear",
+      "currentValue": "Current Value",
+      "noValue": "No stored data",
+      "saveSuccess": "Saved successfully!",
+      "loadSuccess": "Loaded successfully!",
+      "clearSuccess": "Cleared!",
+      "features": "✓ Ultra Fast · ✓ Sync API · ✓ Encryption Support · ✓ Cross Platform"
+    },
     "roadmap": {
       "title": "🚀 Coming Soon",
-      "storage": "Local Storage",
       "auth": "User Authentication"
     }
   },

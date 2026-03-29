@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import {
@@ -6,6 +7,7 @@ import {
   Pressable,
   ScrollView,
   StyleSheet,
+  TextInput,
   View,
 } from "react-native";
 import { z } from "zod";
@@ -21,7 +23,7 @@ import {
   type LanguageCode,
 } from "@/locales";
 import { useAppStore, useCounterStore } from "@/store";
-import { toast } from "@/utils";
+import { mmkvStorage, toast } from "@/utils";
 
 // 表单验证 Schema
 const formSchema = z.object({
@@ -61,6 +63,37 @@ export default function HomeScreen() {
     console.log("Form data:", data);
     toast.success(t("home.form.submitSuccess"));
     resetForm();
+  };
+
+  // Storage Demo
+  const STORAGE_KEY = "demo_value";
+  const [storageInput, setStorageInput] = useState("");
+  const [storedValue, setStoredValue] = useState<string | undefined>(
+    mmkvStorage.getString(STORAGE_KEY),
+  );
+
+  const handleSave = () => {
+    if (storageInput.trim()) {
+      mmkvStorage.setString(STORAGE_KEY, storageInput);
+      setStoredValue(storageInput);
+      toast.success(t("home.storage.saveSuccess"));
+    }
+  };
+
+  const handleLoad = () => {
+    const value = mmkvStorage.getString(STORAGE_KEY);
+    setStoredValue(value);
+    if (value) {
+      setStorageInput(value);
+      toast.success(t("home.storage.loadSuccess"));
+    }
+  };
+
+  const handleClear = () => {
+    mmkvStorage.delete(STORAGE_KEY);
+    setStoredValue(undefined);
+    setStorageInput("");
+    toast.info(t("home.storage.clearSuccess"));
   };
 
   return (
@@ -440,12 +473,71 @@ export default function HomeScreen() {
         </ThemedView>
       </ThemedView>
 
+      {/* Storage Demo */}
+      <ThemedView style={styles.section}>
+        <ThemedText type="subtitle">{t("home.storage.title")}</ThemedText>
+        <ThemedText style={styles.description}>
+          {t("home.storage.description")}
+        </ThemedText>
+
+        <ThemedView style={[styles.card, { borderColor: colors.icon }]}>
+          <ThemedText type="defaultSemiBold">
+            {t("home.storage.currentValue")}:{" "}
+            <ThemedText style={{ color: colors.tint }}>
+              {storedValue ?? t("home.storage.empty")}
+            </ThemedText>
+          </ThemedText>
+
+          <TextInput
+            style={[
+              styles.input,
+              {
+                borderColor: colors.icon,
+                color: colors.text,
+              },
+            ]}
+            value={storageInput}
+            onChangeText={setStorageInput}
+            placeholder={t("home.storage.placeholder")}
+            placeholderTextColor={colors.icon}
+          />
+
+          <View style={styles.buttonRow}>
+            <Pressable
+              style={[styles.button, { backgroundColor: "#22c55e" }]}
+              onPress={handleSave}
+            >
+              <ThemedText style={styles.buttonText}>
+                {t("home.storage.save")}
+              </ThemedText>
+            </Pressable>
+            <Pressable
+              style={[styles.button, { backgroundColor: colors.tint }]}
+              onPress={handleLoad}
+            >
+              <ThemedText style={styles.buttonText}>
+                {t("home.storage.load")}
+              </ThemedText>
+            </Pressable>
+            <Pressable
+              style={[styles.button, { backgroundColor: "#ef4444" }]}
+              onPress={handleClear}
+            >
+              <ThemedText style={styles.buttonText}>
+                {t("home.storage.clear")}
+              </ThemedText>
+            </Pressable>
+          </View>
+
+          <ThemedText style={styles.featureList}>
+            {t("home.storage.features")}
+          </ThemedText>
+        </ThemedView>
+      </ThemedView>
+
       {/* Roadmap */}
       <ThemedView style={styles.section}>
         <ThemedText type="subtitle">{t("home.roadmap.title")}</ThemedText>
-        <ThemedView style={styles.roadmapItem}>
-          <ThemedText>• {t("home.roadmap.storage")}</ThemedText>
-        </ThemedView>
         <ThemedView style={styles.roadmapItem}>
           <ThemedText>• {t("home.roadmap.auth")}</ThemedText>
         </ThemedView>
@@ -581,5 +673,13 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     marginTop: 12,
     textAlign: "center",
+  },
+  input: {
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    fontSize: 16,
+    marginVertical: 12,
   },
 });

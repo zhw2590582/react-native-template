@@ -73,9 +73,23 @@
       "submitSuccess": "表单提交成功！",
       "features": "✓ 类型安全 · ✓ 实时验证 · ✓ 错误提示 · ✓ 易于扩展"
     },
+    "storage": {
+      "title": "💾 本地存储 (MMKV)",
+      "description": "高性能的键值存储方案",
+      "inputLabel": "存储内容",
+      "inputPlaceholder": "输入要存储的内容",
+      "save": "保存",
+      "load": "读取",
+      "clear": "清除",
+      "currentValue": "当前值",
+      "noValue": "无存储数据",
+      "saveSuccess": "保存成功！",
+      "loadSuccess": "读取成功！",
+      "clearSuccess": "已清除！",
+      "features": "✓ 极速读写 · ✓ 同步 API · ✓ 支持加密 · ✓ 跨平台"
+    },
     "roadmap": {
       "title": "🚀 即将添加",
-      "storage": "本地存储",
       "auth": "用户认证"
     }
   },

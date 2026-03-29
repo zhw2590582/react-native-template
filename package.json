@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "react-native-template",
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
@@ -37,6 +37,8 @@
     "react-i18next": "^17.0.1",
     "react-native": "0.81.5",
     "react-native-gesture-handler": "~2.28.0",
+    "react-native-mmkv": "^4.3.0",
+    "react-native-nitro-modules": "^0.35.2",
     "react-native-reanimated": "~4.1.1",
     "react-native-safe-area-context": "~5.6.0",
     "react-native-screens": "~4.16.0",
