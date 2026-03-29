@@ -1,98 +1,234 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+import { ThemedText } from "@/components/themed-text";
+import { ThemedView } from "@/components/themed-view";
+import { Colors } from "@/constants/theme";
+import { useColorScheme } from "@/hooks/use-color-scheme";
+import { useAppStore, useCounterStore } from "@/store";
 
 export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+  const colorScheme = useColorScheme();
+  const colors = Colors[colorScheme ?? "light"];
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
+  // Zustand store
+  const { count, increment, decrement, reset, incrementBy } = useCounterStore();
+  const { themeMode, setThemeMode, isLoading, setLoading } = useAppStore();
+
+  return (
+    <ScrollView
+      style={[styles.container, { backgroundColor: colors.background }]}
+      contentContainerStyle={styles.content}
+    >
+      {/* Header */}
+      <ThemedView style={styles.header}>
+        <ThemedText type="title">RN Template</ThemedText>
+        <ThemedText style={styles.subtitle}>
+          企业级 React Native 模板
         </ThemedText>
       </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
+
+      {/* Zustand Demo */}
+      <ThemedView style={styles.section}>
+        <ThemedText type="subtitle">📦 Zustand 状态管理</ThemedText>
+        <ThemedText style={styles.description}>
+          轻量级、简洁的状态管理方案
         </ThemedText>
+
+        {/* Counter Demo */}
+        <ThemedView style={[styles.card, { borderColor: colors.icon }]}>
+          <ThemedText type="defaultSemiBold">计数器示例</ThemedText>
+          <ThemedText style={styles.countText}>{count}</ThemedText>
+
+          <View style={styles.buttonRow}>
+            <Pressable
+              style={[styles.button, { backgroundColor: colors.tint }]}
+              onPress={decrement}
+            >
+              <ThemedText style={styles.buttonText}>-1</ThemedText>
+            </Pressable>
+            <Pressable
+              style={[styles.button, { backgroundColor: colors.tint }]}
+              onPress={increment}
+            >
+              <ThemedText style={styles.buttonText}>+1</ThemedText>
+            </Pressable>
+            <Pressable
+              style={[styles.button, { backgroundColor: colors.tint }]}
+              onPress={() => incrementBy(10)}
+            >
+              <ThemedText style={styles.buttonText}>+10</ThemedText>
+            </Pressable>
+          </View>
+
+          <Pressable
+            style={[styles.resetButton, { borderColor: colors.tint }]}
+            onPress={reset}
+          >
+            <ThemedText
+              style={[styles.resetButtonText, { color: colors.tint }]}
+            >
+              重置
+            </ThemedText>
+          </Pressable>
+        </ThemedView>
+
+        {/* Theme Mode Demo */}
+        <ThemedView style={[styles.card, { borderColor: colors.icon }]}>
+          <ThemedText type="defaultSemiBold">主题模式</ThemedText>
+          <ThemedText style={styles.description}>
+            当前:{" "}
+            {themeMode === "system"
+              ? "跟随系统"
+              : themeMode === "dark"
+                ? "深色"
+                : "浅色"}
+          </ThemedText>
+
+          <View style={styles.buttonRow}>
+            {(["system", "light", "dark"] as const).map((mode) => (
+              <Pressable
+                key={mode}
+                style={[
+                  styles.themeButton,
+                  {
+                    backgroundColor:
+                      themeMode === mode ? colors.tint : "transparent",
+                    borderColor: colors.tint,
+                  },
+                ]}
+                onPress={() => setThemeMode(mode)}
+              >
+                <ThemedText
+                  style={[
+                    styles.themeButtonText,
+                    { color: themeMode === mode ? "#fff" : colors.tint },
+                  ]}
+                >
+                  {mode === "system"
+                    ? "系统"
+                    : mode === "light"
+                      ? "浅色"
+                      : "深色"}
+                </ThemedText>
+              </Pressable>
+            ))}
+          </View>
+        </ThemedView>
+
+        {/* Loading State Demo */}
+        <ThemedView style={[styles.card, { borderColor: colors.icon }]}>
+          <ThemedText type="defaultSemiBold">全局 Loading 状态</ThemedText>
+          <ThemedText style={styles.description}>
+            状态: {isLoading ? "加载中..." : "空闲"}
+          </ThemedText>
+
+          <Pressable
+            style={[
+              styles.button,
+              { backgroundColor: colors.tint, alignSelf: "flex-start" },
+            ]}
+            onPress={() => {
+              setLoading(true);
+              setTimeout(() => setLoading(false), 2000);
+            }}
+          >
+            <ThemedText style={styles.buttonText}>模拟加载 (2s)</ThemedText>
+          </Pressable>
+        </ThemedView>
       </ThemedView>
-    </ParallaxScrollView>
+
+      {/* Roadmap */}
+      <ThemedView style={styles.section}>
+        <ThemedText type="subtitle">🚀 即将添加</ThemedText>
+        <ThemedView style={styles.roadmapItem}>
+          <ThemedText>• React Query - 网络请求</ThemedText>
+        </ThemedView>
+        <ThemedView style={styles.roadmapItem}>
+          <ThemedText>• i18n - 国际化</ThemedText>
+        </ThemedView>
+        <ThemedView style={styles.roadmapItem}>
+          <ThemedText>• Toast - 消息提示</ThemedText>
+        </ThemedView>
+        <ThemedView style={styles.roadmapItem}>
+          <ThemedText>• Form - 表单验证</ThemedText>
+        </ThemedView>
+      </ThemedView>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  container: {
+    flex: 1,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  content: {
+    padding: 20,
+    paddingTop: 60,
+    paddingBottom: 40,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  header: {
+    marginBottom: 32,
+  },
+  subtitle: {
+    opacity: 0.6,
+    marginTop: 4,
+  },
+  section: {
+    marginBottom: 32,
+  },
+  description: {
+    opacity: 0.7,
+    marginTop: 4,
+    marginBottom: 16,
+  },
+  card: {
+    padding: 16,
+    borderRadius: 12,
+    marginBottom: 12,
+    borderWidth: 1,
+
+  },
+  countText: {
+    fontSize: 48,
+    fontWeight: "700",
+    textAlign: "center",
+    marginVertical: 16,
+  },
+  buttonRow: {
+    flexDirection: "row",
+    gap: 12,
+    marginBottom: 12,
+  },
+  button: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+  },
+  buttonText: {
+    color: "#fff",
+    fontWeight: "600",
+  },
+  resetButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    borderWidth: 1,
+    alignSelf: "flex-start",
+  },
+  resetButtonText: {
+    fontWeight: "600",
+  },
+  themeButton: {
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    borderWidth: 1,
+  },
+  themeButtonText: {
+    fontWeight: "600",
+    fontSize: 13,
+  },
+  roadmapItem: {
+    paddingVertical: 8,
   },
 });
