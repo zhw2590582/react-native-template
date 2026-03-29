@@ -1,5 +1,4 @@
 import { useTranslation } from "react-i18next";
-import { StyleSheet } from "react-native";
 
 import { ThemedText } from "@/components/ui/themed-text";
 import { ThemedView } from "@/components/ui/themed-view";
@@ -8,22 +7,9 @@ export default function ProfileScreen() {
   const { t } = useTranslation();
 
   return (
-    <ThemedView style={styles.container}>
+    <ThemedView className="flex-1 justify-center items-center p-5">
       <ThemedText type="title">{t("tabs.profile")}</ThemedText>
-      <ThemedText style={styles.subtitle}>Coming soon...</ThemedText>
+      <ThemedText className="opacity-60 mt-2">Coming soon...</ThemedText>
     </ThemedView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
-  },
-  subtitle: {
-    opacity: 0.6,
-    marginTop: 8,
-  },
-});

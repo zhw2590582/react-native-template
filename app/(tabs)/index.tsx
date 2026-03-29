@@ -119,22 +119,19 @@ export default function HomeScreen() {
 
           <View className="flex-row gap-3 mb-3">
             <Pressable
-              className="py-2.5 px-5 rounded-lg flex-1"
-              style={{ backgroundColor: "rgb(13, 110, 253)" }}
+              className="py-2.5 px-5 rounded-lg flex-1 bg-blue-600"
               onPress={decrement}
             >
               <ThemedText className="text-white font-semibold">-1</ThemedText>
             </Pressable>
             <Pressable
-              className="py-2.5 px-5 rounded-lg flex-1"
-              style={{ backgroundColor: "rgb(13, 110, 253)" }}
+              className="py-2.5 px-5 rounded-lg flex-1 bg-blue-600"
               onPress={increment}
             >
               <ThemedText className="text-white font-semibold">+1</ThemedText>
             </Pressable>
             <Pressable
-              className="py-2.5 px-5 rounded-lg flex-1"
-              style={{ backgroundColor: "rgb(13, 110, 253)" }}
+              className="py-2.5 px-5 rounded-lg flex-1 bg-blue-600"
               onPress={() => incrementBy(10)}
             >
               <ThemedText className="text-white font-semibold">+10</ThemedText>
@@ -207,8 +204,7 @@ export default function HomeScreen() {
           </ThemedText>
 
           <Pressable
-            className="py-2.5 px-5 rounded w-fit"
-            style={{ backgroundColor: "rgb(13, 110, 253)" }}
+            className="py-2.5 px-5 rounded w-fit bg-blue-600"
             onPress={() => {
               setLoading(true);
               setTimeout(() => setLoading(false), 2000);
@@ -342,8 +338,7 @@ export default function HomeScreen() {
         <ThemedView className="p-4 rounded-lg mb-3 border border-neutral-300 dark:border-neutral-600">
           <View className="flex-row gap-3 mb-3">
             <Pressable
-              className="flex-1 py-2.5 px-5 rounded"
-              style={{ backgroundColor: "#22c55e" }}
+              className="flex-1 py-2.5 px-5 rounded bg-green-500"
               onPress={() => toast.success(t("home.toast.successMsg"))}
             >
               <ThemedText className="text-white font-semibold text-center">
@@ -351,8 +346,7 @@ export default function HomeScreen() {
               </ThemedText>
             </Pressable>
             <Pressable
-              className="flex-1 py-2.5 px-5 rounded"
-              style={{ backgroundColor: "#ef4444" }}
+              className="flex-1 py-2.5 px-5 rounded bg-red-500"
               onPress={() => toast.error(t("home.toast.errorMsg"))}
             >
               <ThemedText className="text-white font-semibold text-center">
@@ -363,8 +357,7 @@ export default function HomeScreen() {
 
           <View className="flex-row gap-3 mb-3">
             <Pressable
-              className="flex-1 py-2.5 px-5 rounded"
-              style={{ backgroundColor: "#f59e0b" }}
+              className="flex-1 py-2.5 px-5 rounded bg-amber-500"
               onPress={() => toast.warning(t("home.toast.warningMsg"))}
             >
               <ThemedText className="text-white font-semibold text-center">
@@ -372,8 +365,7 @@ export default function HomeScreen() {
               </ThemedText>
             </Pressable>
             <Pressable
-              className="flex-1 py-2.5 px-5 rounded"
-              style={{ backgroundColor: "#3b82f6" }}
+              className="flex-1 py-2.5 px-5 rounded bg-blue-500"
               onPress={() => toast.info(t("home.toast.infoMsg"))}
             >
               <ThemedText className="text-white font-semibold text-center">
@@ -383,8 +375,7 @@ export default function HomeScreen() {
           </View>
 
           <Pressable
-            className="py-2.5 px-5 rounded"
-            style={{ backgroundColor: "rgb(13, 110, 253)" }}
+            className="py-2.5 px-5 rounded bg-blue-600"
             onPress={() => {
               const promise = new Promise((resolve) =>
                 setTimeout(resolve, 2000),
@@ -453,8 +444,7 @@ export default function HomeScreen() {
           />
 
           <Pressable
-            className="py-2.5 px-5 rounded"
-            style={{ backgroundColor: "rgb(13, 110, 253)" }}
+            className="py-2.5 px-5 rounded bg-blue-600"
             onPress={handleSubmit(onSubmit)}
           >
             <ThemedText className="text-white font-semibold text-center">
@@ -484,8 +474,7 @@ export default function HomeScreen() {
           </ThemedText>
 
           <TextInput
-            className="border border-neutral-300 dark:border-neutral-600 rounded-lg py-3 px-4 text-base my-3"
-            style={{ color: "#000" }}
+            className="border border-neutral-300 dark:border-neutral-600 rounded-lg py-3 px-4 text-base my-3 text-black dark:text-white\"
             value={storageInput}
             onChangeText={setStorageInput}
             placeholder={t("home.storage.placeholder")}
@@ -494,8 +483,7 @@ export default function HomeScreen() {
 
           <View className="flex-row gap-3 mb-3">
             <Pressable
-              className="flex-1 py-2.5 px-5 rounded"
-              style={{ backgroundColor: "#22c55e" }}
+              className="flex-1 py-2.5 px-5 rounded bg-green-500"
               onPress={handleSave}
             >
               <ThemedText className="text-white font-semibold text-center text-sm">
@@ -503,8 +491,7 @@ export default function HomeScreen() {
               </ThemedText>
             </Pressable>
             <Pressable
-              className="flex-1 py-2.5 px-5 rounded"
-              style={{ backgroundColor: "rgb(13, 110, 253)" }}
+              className="flex-1 py-2.5 px-5 rounded bg-blue-600"
               onPress={handleLoad}
             >
               <ThemedText className="text-white font-semibold text-center text-sm">
@@ -512,8 +499,7 @@ export default function HomeScreen() {
               </ThemedText>
             </Pressable>
             <Pressable
-              className="flex-1 py-2.5 px-5 rounded"
-              style={{ backgroundColor: "#ef4444" }}
+              className="flex-1 py-2.5 px-5 rounded bg-red-500"
               onPress={handleClear}
             >
               <ThemedText className="text-white font-semibold text-center text-sm">

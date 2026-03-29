@@ -1,12 +1,6 @@
 import { Colors } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
-import {
-    StyleSheet,
-    TextInput,
-    TextInputProps,
-    View,
-    ViewStyle,
-} from "react-native";
+import { TextInput, TextInputProps, View, ViewStyle } from "react-native";
 import { ThemedText } from "./themed-text";
 
 interface FormInputProps extends TextInputProps {
@@ -26,11 +20,15 @@ export function FormInput({
   const colors = Colors[colorScheme ?? "light"];
 
   return (
-    <View style={[styles.container, containerStyle]}>
-      {label && <ThemedText style={styles.label}>{label}</ThemedText>}
+    <View style={containerStyle} className="mb-4">
+      {label && (
+        <ThemedText className="text-sm font-semibold mb-1.5">
+          {label}
+        </ThemedText>
+      )}
       <TextInput
+        className="h-12 rounded border px-3.5 text-base"
         style={[
-          styles.input,
           {
             backgroundColor: colorScheme === "dark" ? "#2a2a2a" : "#f5f5f5",
             color: colors.text,
@@ -41,30 +39,9 @@ export function FormInput({
         placeholderTextColor={colors.icon}
         {...props}
       />
-      {error && <ThemedText style={styles.error}>{error}</ThemedText>}
+      {error && (
+        <ThemedText className="text-red-500 text-xs mt-1">{error}</ThemedText>
+      )}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    marginBottom: 16,
-  },
-  label: {
-    fontSize: 14,
-    fontWeight: "600",
-    marginBottom: 6,
-  },
-  input: {
-    height: 48,
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingHorizontal: 14,
-    fontSize: 16,
-  },
-  error: {
-    color: "#ef4444",
-    fontSize: 12,
-    marginTop: 4,
-  },
-});
