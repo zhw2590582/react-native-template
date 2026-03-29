@@ -42,9 +42,24 @@
       "switchLang": "切换语言",
       "greeting": "你好，欢迎使用！"
     },
+    "toast": {
+      "title": "👋 Toast 消息提示",
+      "description": "基于 sonner-native 的多类型消息提示",
+      "success": "成功提示",
+      "error": "错误提示",
+      "warning": "警告提示",
+      "info": "信息提示",
+      "promise": "Promise 提示",
+      "successMsg": "操作成功！",
+      "errorMsg": "操作失败！",
+      "warningMsg": "请注意！",
+      "infoMsg": "这是一条信息",
+      "loadingMsg": "加载中...",
+      "promiseSuccess": "数据加载完成",
+      "promiseError": "加载失败"
+    },
     "roadmap": {
       "title": "🚀 即将添加",
-      "toast": "Toast - 消息提示",
       "form": "Form - 表单验证"
     }
   },

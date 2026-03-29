@@ -19,6 +19,7 @@ import {
   type LanguageCode,
 } from "@/locales";
 import { useAppStore, useCounterStore } from "@/store";
+import { toast } from "@/utils";
 
 export default function HomeScreen() {
   const { t } = useTranslation();
@@ -276,12 +277,78 @@ export default function HomeScreen() {
         </ThemedView>
       </ThemedView>
 
+      {/* Toast Demo */}
+      <ThemedView style={styles.section}>
+        <ThemedText type="subtitle">{t("home.toast.title")}</ThemedText>
+        <ThemedText style={styles.description}>
+          {t("home.toast.description")}
+        </ThemedText>
+
+        <ThemedView style={[styles.card, { borderColor: colors.icon }]}>
+          <View style={styles.buttonRow}>
+            <Pressable
+              style={[styles.button, { backgroundColor: "#22c55e" }]}
+              onPress={() => toast.success(t("home.toast.successMsg"))}
+            >
+              <ThemedText style={styles.buttonText}>
+                {t("home.toast.success")}
+              </ThemedText>
+            </Pressable>
+            <Pressable
+              style={[styles.button, { backgroundColor: "#ef4444" }]}
+              onPress={() => toast.error(t("home.toast.errorMsg"))}
+            >
+              <ThemedText style={styles.buttonText}>
+                {t("home.toast.error")}
+              </ThemedText>
+            </Pressable>
+          </View>
+
+          <View style={styles.buttonRow}>
+            <Pressable
+              style={[styles.button, { backgroundColor: "#f59e0b" }]}
+              onPress={() => toast.warning(t("home.toast.warningMsg"))}
+            >
+              <ThemedText style={styles.buttonText}>
+                {t("home.toast.warning")}
+              </ThemedText>
+            </Pressable>
+            <Pressable
+              style={[styles.button, { backgroundColor: "#3b82f6" }]}
+              onPress={() => toast.info(t("home.toast.infoMsg"))}
+            >
+              <ThemedText style={styles.buttonText}>
+                {t("home.toast.info")}
+              </ThemedText>
+            </Pressable>
+          </View>
+
+          <Pressable
+            style={[
+              styles.button,
+              { backgroundColor: colors.tint, alignSelf: "flex-start" },
+            ]}
+            onPress={() => {
+              const promise = new Promise((resolve) =>
+                setTimeout(resolve, 2000),
+              );
+              toast.promise(promise, {
+                loading: t("home.toast.loadingMsg"),
+                success: t("home.toast.promiseSuccess"),
+                error: t("home.toast.promiseError"),
+              });
+            }}
+          >
+            <ThemedText style={styles.buttonText}>
+              {t("home.toast.promise")}
+            </ThemedText>
+          </Pressable>
+        </ThemedView>
+      </ThemedView>
+
       {/* Roadmap */}
       <ThemedView style={styles.section}>
         <ThemedText type="subtitle">{t("home.roadmap.title")}</ThemedText>
-        <ThemedView style={styles.roadmapItem}>
-          <ThemedText>• {t("home.roadmap.toast")}</ThemedText>
-        </ThemedView>
         <ThemedView style={styles.roadmapItem}>
           <ThemedText>• {t("home.roadmap.form")}</ThemedText>
         </ThemedView>

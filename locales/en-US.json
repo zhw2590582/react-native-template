@@ -42,9 +42,24 @@
       "switchLang": "Switch Language",
       "greeting": "Hello, welcome!"
     },
+    "toast": {
+      "title": "👋 Toast Notifications",
+      "description": "Multiple toast types powered by sonner-native",
+      "success": "Success",
+      "error": "Error",
+      "warning": "Warning",
+      "info": "Info",
+      "promise": "Promise",
+      "successMsg": "Operation successful!",
+      "errorMsg": "Operation failed!",
+      "warningMsg": "Please note!",
+      "infoMsg": "This is an info message",
+      "loadingMsg": "Loading...",
+      "promiseSuccess": "Data loaded successfully",
+      "promiseError": "Failed to load"
+    },
     "roadmap": {
       "title": "🚀 Coming Soon",
-      "toast": "Toast - Notifications",
       "form": "Form - Form Validation"
     }
   },
