@@ -7,11 +7,7 @@
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "tailwindCSS.classAttributes": [
-    "className",
-    "class",
-    "ngClass"
-  ],
+  "tailwindCSS.classAttributes": ["className", "class", "ngClass"],
   "tailwindCSS.emmetCompletions": true,
   "editor.quickSuggestions": {
     "strings": true
