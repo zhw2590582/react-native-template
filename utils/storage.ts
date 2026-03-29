@@ -1,6 +1,8 @@
 import { Platform } from "react-native";
 import { createMMKV } from "react-native-mmkv";
 
+import { Config } from "@/constants";
+
 // 创建默认 MMKV 实例
 export const storage = createMMKV();
 
@@ -8,7 +10,7 @@ export const storage = createMMKV();
 export const secureStorage = createMMKV({
   id: "secure-storage",
   ...(Platform.OS !== "web" && {
-    encryptionKey: "your-encryption-key", // 生产环境应使用安全生成的密钥
+    encryptionKey: Config.STORAGE_ENCRYPTION_KEY,
   }),
 });
 

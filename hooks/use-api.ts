@@ -1,10 +1,12 @@
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import axios from "axios";
 
+import { API_BASE_URL, API_TIMEOUT } from "@/constants";
+
 // 创建 axios 实例
 const apiClient: AxiosInstance = axios.create({
-  baseURL: "https://jsonplaceholder.typicode.com", // 示例 API
-  timeout: 10000,
+  baseURL: API_BASE_URL,
+  timeout: API_TIMEOUT,
   headers: {
     "Content-Type": "application/json",
   },
