@@ -58,9 +58,25 @@
       "promiseSuccess": "Data loaded successfully",
       "promiseError": "Failed to load"
     },
+    "form": {
+      "title": "📝 Form Validation",
+      "description": "Type-safe validation with react-hook-form + zod",
+      "username": "Username",
+      "usernamePlaceholder": "Enter username",
+      "usernameRequired": "Username is required",
+      "usernameMin": "Username must be at least 2 characters",
+      "email": "Email",
+      "emailPlaceholder": "Enter email",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Invalid email format",
+      "submit": "Submit",
+      "submitSuccess": "Form submitted successfully!",
+      "features": "✓ Type Safe · ✓ Real-time Validation · ✓ Error Messages · ✓ Extensible"
+    },
     "roadmap": {
       "title": "🚀 Coming Soon",
-      "form": "Form - Form Validation"
+      "storage": "Local Storage",
+      "auth": "User Authentication"
     }
   },
   "tabs": {

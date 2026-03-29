@@ -1,3 +1,5 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
@@ -6,10 +8,12 @@ import {
   StyleSheet,
   View,
 } from "react-native";
+import { z } from "zod";
 
 import { usePosts } from "@/api";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
+import { FormInput } from "@/components/ui";
 import { Colors } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import {
@@ -20,6 +24,14 @@ import {
 } from "@/locales";
 import { useAppStore, useCounterStore } from "@/store";
 import { toast } from "@/utils";
+
+// 表单验证 Schema
+const formSchema = z.object({
+  username: z.string().min(1, "usernameRequired").min(2, "usernameMin"),
+  email: z.string().min(1, "emailRequired").email("emailInvalid"),
+});
+
+type FormData = z.infer<typeof formSchema>;
 
 export default function HomeScreen() {
   const { t } = useTranslation();
@@ -32,6 +44,26 @@ export default function HomeScreen() {
 
   // React Query
   const { data: posts, isLoading: postsLoading, error, refetch } = usePosts(3);
+
+  // Form
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    reset: resetForm,
+  } = useForm<FormData>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      username: "",
+      email: "",
+    },
+  });
+
+  const onSubmit = (data: FormData) => {
+    console.log("Form data:", data);
+    toast.success(t("home.form.submitSuccess"));
+    resetForm();
+  };
 
   return (
     <ScrollView
@@ -346,11 +378,78 @@ export default function HomeScreen() {
         </ThemedView>
       </ThemedView>
 
+      {/* Form Demo */}
+      <ThemedView style={styles.section}>
+        <ThemedText type="subtitle">{t("home.form.title")}</ThemedText>
+        <ThemedText style={styles.description}>
+          {t("home.form.description")}
+        </ThemedText>
+
+        <ThemedView style={[styles.card, { borderColor: colors.icon }]}>
+          <Controller
+            control={control}
+            name="username"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <FormInput
+                label={t("home.form.username")}
+                placeholder={t("home.form.usernamePlaceholder")}
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                error={
+                  errors.username
+                    ? t(`home.form.${errors.username.message}`)
+                    : undefined
+                }
+                autoCapitalize="none"
+              />
+            )}
+          />
+
+          <Controller
+            control={control}
+            name="email"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <FormInput
+                label={t("home.form.email")}
+                placeholder={t("home.form.emailPlaceholder")}
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                error={
+                  errors.email
+                    ? t(`home.form.${errors.email.message}`)
+                    : undefined
+                }
+                keyboardType="email-address"
+                autoCapitalize="none"
+              />
+            )}
+          />
+
+          <Pressable
+            style={[styles.button, { backgroundColor: colors.tint }]}
+            onPress={handleSubmit(onSubmit)}
+          >
+            <ThemedText style={styles.buttonText}>
+              {t("home.form.submit")}
+            </ThemedText>
+          </Pressable>
+
+          <ThemedText style={styles.featureList}>
+            {t("home.form.features")}
+          </ThemedText>
+        </ThemedView>
+      </ThemedView>
+
       {/* Roadmap */}
       <ThemedView style={styles.section}>
         <ThemedText type="subtitle">{t("home.roadmap.title")}</ThemedText>
         <ThemedView style={styles.roadmapItem}>
-          <ThemedText>• {t("home.roadmap.form")}</ThemedText>
+          <ThemedText>• {t("home.roadmap.storage")}</ThemedText>
+        </ThemedView>
+        <ThemedView style={styles.roadmapItem}>
+          <ThemedText>• {t("home.roadmap.auth")}</ThemedText>
         </ThemedView>
       </ThemedView>
     </ScrollView>

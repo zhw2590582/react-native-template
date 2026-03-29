@@ -58,9 +58,25 @@
       "promiseSuccess": "数据加载完成",
       "promiseError": "加载失败"
     },
+    "form": {
+      "title": "📝 表单验证",
+      "description": "react-hook-form + zod 类型安全验证",
+      "username": "用户名",
+      "usernamePlaceholder": "请输入用户名",
+      "usernameRequired": "用户名不能为空",
+      "usernameMin": "用户名至少 2 个字符",
+      "email": "邮箱",
+      "emailPlaceholder": "请输入邮箱",
+      "emailRequired": "邮箱不能为空",
+      "emailInvalid": "邮箱格式不正确",
+      "submit": "提交",
+      "submitSuccess": "表单提交成功！",
+      "features": "✓ 类型安全 · ✓ 实时验证 · ✓ 错误提示 · ✓ 易于扩展"
+    },
     "roadmap": {
       "title": "🚀 即将添加",
-      "form": "Form - 表单验证"
+      "storage": "本地存储",
+      "auth": "用户认证"
     }
   },
   "tabs": {
