@@ -1,4 +1,7 @@
 import { create } from "zustand";
+import { createJSONStorage, persist } from "zustand/middleware";
+
+import { storage } from "@/utils/storage";
 
 type ThemeMode = "light" | "dark" | "system";
 
@@ -16,16 +19,43 @@ interface AppState {
   setLoading: (value: boolean) => void;
 }
 
-export const useAppStore = create<AppState>((set) => ({
-  // 主题
-  themeMode: "system",
-  setThemeMode: (mode) => set({ themeMode: mode }),
+// MMKV 存储适配器
+const mmkvStorage = {
+  getItem: (name: string) => {
+    const value = storage.getString(name);
+    return value ?? null;
+  },
+  setItem: (name: string, value: string) => {
+    storage.set(name, value);
+  },
+  removeItem: (name: string) => {
+    storage.remove(name);
+  },
+};
 
-  // 首次启动
-  isFirstLaunch: true,
-  setFirstLaunch: (value) => set({ isFirstLaunch: value }),
+export const useAppStore = create<AppState>()(
+  persist(
+    (set) => ({
+      // 主题
+      themeMode: "system",
+      setThemeMode: (mode) => set({ themeMode: mode }),
 
-  // loading
-  isLoading: false,
-  setLoading: (value) => set({ isLoading: value }),
-}));
+      // 首次启动
+      isFirstLaunch: true,
+      setFirstLaunch: (value) => set({ isFirstLaunch: value }),
+
+      // loading
+      isLoading: false,
+      setLoading: (value) => set({ isLoading: value }),
+    }),
+    {
+      name: "app-store",
+      storage: createJSONStorage(() => mmkvStorage),
+      // 只持久化需要的字段
+      partialize: (state) => ({
+        themeMode: state.themeMode,
+        isFirstLaunch: state.isFirstLaunch,
+      }),
+    },
+  ),
+);

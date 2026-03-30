@@ -12,14 +12,6 @@ export const QUERY_CONFIG = {
 } as const;
 
 /**
- * 存储相关常量
- */
-export const STORAGE_CONFIG = {
-  DEFAULT_ID: "mmkv.default",
-  SECURE_ID: "secure-storage",
-} as const;
-
-/**
  * 日志相关常量
  */
 export const LOG_CONFIG = {

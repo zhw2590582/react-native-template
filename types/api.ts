@@ -17,13 +17,4 @@ export interface User {
 }
 
 // ============ Common Types ============
-export interface PaginationParams {
-  page?: number;
-  limit?: number;
-}
-
-export interface ApiResponse<T> {
-  data: T;
-  message?: string;
-  success: boolean;
-}
+// 添加通用类型（如 PaginationParams、ApiResponse 等）
