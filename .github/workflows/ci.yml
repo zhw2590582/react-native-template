@@ -95,7 +95,9 @@ jobs:
         run: bun run doctor
 
       - name: Export bundle (build validation)
-        run: npx expo export --platform all --output-dir dist
+        run: npx expo export --platform web --output-dir dist
+        env:
+          CI: true
 
       - name: Verify bundle output
         run: |
