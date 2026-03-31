@@ -94,13 +94,17 @@ jobs:
       - name: Run Expo Doctor
         run: bun run doctor
 
-      - name: Check Expo config
-        run: expo prebuild --clean
-        continue-on-error: true
+      - name: Export bundle (build validation)
+        run: npx expo export --platform all --output-dir dist
 
-      - name: Metro bundler check
-        run: bunx expo configure 2>/dev/null || true
-        continue-on-error: true
+      - name: Verify bundle output
+        run: |
+          if [ -d "dist" ] && [ -f "dist/index.html" ]; then
+            echo "✅ Web bundle created successfully"
+          else
+            echo "❌ Bundle export failed"
+            exit 1
+          fi
 
   dependency-check:
     name: Dependency Security Check
