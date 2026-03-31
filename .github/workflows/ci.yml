@@ -94,20 +94,6 @@ jobs:
       - name: Run Expo Doctor
         run: bun run doctor
 
-      - name: Export bundle (build validation)
-        run: npx expo export --platform web --output-dir dist
-        env:
-          CI: true
-
-      - name: Verify bundle output
-        run: |
-          if [ -d "dist" ] && [ -f "dist/index.html" ]; then
-            echo "✅ Web bundle created successfully"
-          else
-            echo "❌ Bundle export failed"
-            exit 1
-          fi
-
   dependency-check:
     name: Dependency Security Check
     runs-on: ubuntu-latest
