@@ -21,7 +21,7 @@ export function useColorScheme(): "light" | "dark" {
   }
 
   if (themeMode === "system") {
-    return systemColorScheme ?? "light";
+    return systemColorScheme === "dark" ? "dark" : "light";
   }
 
   return themeMode;

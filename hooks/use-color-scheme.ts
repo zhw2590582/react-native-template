@@ -11,7 +11,7 @@ export function useColorScheme(): "light" | "dark" {
   const themeMode = useAppStore((state) => state.themeMode);
 
   if (themeMode === "system") {
-    return systemColorScheme ?? "light";
+    return systemColorScheme === "dark" ? "dark" : "light";
   }
 
   return themeMode;
